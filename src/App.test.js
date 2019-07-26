@@ -27,11 +27,13 @@ describe('getUser', () => {
 
 describe('getUserMock', () => {
   it('should get user mock', () => {
-    jest.doMock('./requests', async () => {
-      const user = await getUser()
-      const expected = 'mojombo'
-      expect(user).toBeDefined()
-      expect(user.login).toEqual(expected)
-    })
+    jest.doMock(
+      './requests',
+      getUser().then(user => {
+        const expected = 'mojombo'
+        expect(user).toBeDefined()
+        expect(user.login).toEqual(expected)
+      })
+    )
   })
 })
