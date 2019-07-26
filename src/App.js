@@ -1,5 +1,5 @@
 import React from 'react'
-import request from 'services'
+import { getUsers } from 'requests'
 
 class App extends React.Component {
   constructor() {
@@ -11,17 +11,11 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({ loading: true })
-    request
-      .get('/users', {})
-      .then(json => {
-        const userData = json.data
-        this.setState({ users: userData, loading: false })
-      })
-      .catch(e => {
-        console.log(e)
-      })
+
+    const userData = await getUsers()
+    this.setState({ users: userData, loading: false })
   }
 
   render() {
