@@ -5,6 +5,8 @@ class App extends React.Component {
   constructor() {
     super()
 
+    this._mounted = true
+
     this.state = {
       users: [],
       loading: false
@@ -15,7 +17,14 @@ class App extends React.Component {
     this.setState({ loading: true })
 
     const userData = await getUsers()
-    this.setState({ users: userData, loading: false })
+    if (this._mounted) {
+      this.setState({ users: userData, loading: false })
+    }
+  }
+
+  componentWillUnmount() {
+    /* Avoid set state on unmounted component */
+    this._mounted = false
   }
 
   render() {
